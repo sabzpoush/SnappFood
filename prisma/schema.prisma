@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Owner {
+  id           Int          @id @default(autoincrement())
+  fullName     String
+  email        String       @unique
+  phone        String       @unique
+  profile      String?
+  refreshToken String?
+  password     String
+  state        String?
+  city         String?
+  Restaurant   Restaurant[]
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  fullName     String
+  email        String  @unique
+  phone        String  @unique
+  profile      String?
+  refreshToken String?
+  password     String
+}
+
+model Restaurant {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  score       Int[]
+  body        String?
+  banner      String?
+  picture     String?
+  logo        String?
+  address     String
+  phone       String[]
+  workTime    String
+  owner       Owner      @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  href        String?    @unique
+  Category    Category[]
+}
+
+model Category {
+  id           Int        @id @default(autoincrement())
+  href         String     @unique
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId Int
+  Product Product[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  title String
+  picture String?
+  description String?
+  price Int
+  category Category @relation(fields: [categoryId],references: [id])
+  categoryId Int
+  order Orders[] @relation("order")
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  title String 
+  body String
+  date DateTime @default(now())
+  stats Int @default(0)
+}
+
+model Orders{
+  id Int @id @default(autoincrement())
+  order Product @relation("order",fields: [orderId],references: [id])
+  orderId Int[]
+}
