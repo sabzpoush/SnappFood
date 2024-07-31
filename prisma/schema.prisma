@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "library"
 }
 
 datasource db {
@@ -14,75 +15,103 @@ datasource db {
 }
 
 model Owner {
-  id           Int          @id @default(autoincrement())
-  fullName     String
-  email        String       @unique
-  phone        String       @unique
+  id           Int         @id @default(autoincrement())
+  fullName     String      @db.VarChar(255)
+  email        String      @unique
+  phone        String      @unique
   profile      String?
   refreshToken String?
   password     String
   state        String?
   city         String?
-  Restaurant   Restaurant[]
+  Restaurant   Restaurant?
 }
 
 model User {
   id           Int     @id @default(autoincrement())
-  fullName     String
+  fullName     String  @db.VarChar(255)
   email        String  @unique
   phone        String  @unique
   profile      String?
   refreshToken String?
   password     String
+  Cart         Cart[]
+  Order        Order[]
 }
 
 model Restaurant {
   id          Int        @id @default(autoincrement())
-  title       String
+  title       String     @db.VarChar(255)
   description String?
-  score       Int[]
+  score       Int[]      @default([5])
   body        String?
   banner      String?
   picture     String?
   logo        String?
-  address     String
+  address     String?
   phone       String[]
-  workTime    String
+  workTime    String?
   owner       Owner      @relation(fields: [ownerId], references: [id])
-  ownerId     Int
+  ownerId     Int        @unique
   href        String?    @unique
   Category    Category[]
+  Product     Product[]
+  Cart        Cart[]
+  Order       Order[]
 }
 
 model Category {
   id           Int        @id @default(autoincrement())
+  title        String     @db.VarChar(255)
   href         String     @unique
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId Int
-  Product Product[]
+  Product      Product[]
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  title String
-  picture String?
+  id          Int        @id @default(autoincrement())
+  title       String
+  picture     String?
   description String?
-  price Int
-  category Category @relation(fields: [categoryId],references: [id])
-  categoryId Int
-  order Orders[] @relation("order")
+  price       Int
+  restaurant  Restaurant @relation(fields: [restId], references: [id])
+  restId      Int
+  category    Category   @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  Cart        Cart[]
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
-  title String 
-  body String
-  date DateTime @default(now())
-  stats Int @default(0)
+  id    Int      @id @default(autoincrement())
+  title String
+  body  String
+  date  DateTime @default(now())
+  stats Int      @default(0)
 }
 
-model Orders{
-  id Int @id @default(autoincrement())
-  order Product @relation("order",fields: [orderId],references: [id])
-  orderId Int[]
+model Cart {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  product      Product    @relation(fields: [products], references: [id])
+  products     Int
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId Int
+  count        Int        @default(1)
+  price        Int        @default(0)
+}
+
+model Order {
+  id           Int        @id @default(autoincrement())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  products     Json[]
+  count        Int[]
+  address      String     @default("Ask Him!")
+  price        Int
+  date         DateTime   @default(now())
+  note         String?
+  restaurantId Int
+  userId       Int
 }
