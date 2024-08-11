@@ -2,8 +2,6 @@ import {Cart,Product,Restaurant,User, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient();
 import express,{Request,Response,NextFunction} from 'express';
 import { IGetAuthRequest } from '../../utils/types/req';
-import { count } from 'console';
-import { update } from 'lodash';
 
 
 export async function addToCart(req:IGetAuthRequest,res:Response) {

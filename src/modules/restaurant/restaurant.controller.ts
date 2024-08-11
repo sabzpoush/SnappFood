@@ -70,6 +70,7 @@ export async function allRestaurant(req:Request,res:Response) {
             owner:true
         }
     });
+
     if(restarurants.length === 0 ){
         return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
     }

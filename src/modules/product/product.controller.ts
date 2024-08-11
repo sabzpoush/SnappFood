@@ -94,3 +94,33 @@ export async function selfRestProduct(req:IGetAuthRequest,res:Response) {
 
     return res.status(200).json(selfProduct);
 }
+
+
+export async function changeProductPrice(req:IGetAuthRequest,res:Response){
+    const ownerId:number = req.ownerId;
+    const owner:Owner = req.owner;
+
+    const {
+        productId,
+        price } = req.body;
+    const productExist = await prisma.product.findUnique({where:{id:+productId}});
+    if(!productExist){
+        return res.status(422).json({message:'محصول انتخابی شما موجود نیست!'});
+    }
+
+    const productNewPrice = await prisma.product.update({
+        where:{id:productExist.id},
+        data:{price:+price}
+    });
+    if(!productNewPrice){
+        return res.status(422).json({message:'تغییر قیمت محصول شما با خطا مواجه شد!'});
+    }
+
+    const title:string = productNewPrice.title;
+    const newPrice:string = String(productNewPrice.price);
+    return res
+        .status(203)
+        .json({
+            message:`قیمت محصول ${title} به مقدار ${newPrice} تغییر یافت!`
+        });
+}
