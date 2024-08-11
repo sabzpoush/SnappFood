@@ -7,6 +7,7 @@
 generator client {
   provider   = "prisma-client-js"
   engineType = "library"
+  output = "./../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -75,6 +76,7 @@ model Product {
   picture     String?
   description String?
   price       Int
+  discount    Int        @default(0)
   restaurant  Restaurant @relation(fields: [restId], references: [id])
   restId      Int
   category    Category   @relation(fields: [categoryId], references: [id])
@@ -100,18 +102,21 @@ model Cart {
   restaurantId Int
   count        Int        @default(1)
   price        Int        @default(0)
+  discount     Int        @default(0)
 }
 
 model Order {
+  uuid         String     @default(uuid())
   id           Int        @id @default(autoincrement())
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
   products     Json[]
-  count        Int[]
+  count        Int
   address      String     @default("Ask Him!")
   price        Int
   date         DateTime   @default(now())
   note         String?
   restaurantId Int
   userId       Int
+  time         BigInt?
 }
