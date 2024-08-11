@@ -10,7 +10,7 @@ import {JwtPayload} from '../utils/types/jwt';
 export async function authUser(req:IGetAuthRequest,res:Response,next:NextFunction) {
     const userToken = req.signedCookies['refreshToken'];
     if(!userToken){
-        return res.redirect('/owner/login');
+        return res.redirect('/user/login');
     };
     try{
         const refreshTokenKey = process.env.REFRESHTOKEN
