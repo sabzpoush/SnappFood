@@ -27,3 +27,29 @@ export function calcMultipleScore(rest:Restaurant[]){
 
     return resault;
 }
+
+export function calcTotalScoreSingleRest(rest:Restaurant){
+    let sumScore:number = 0;
+    let scoreLen:number = rest.score.length;
+    rest.score.forEach((score:number)=>{
+        sumScore += score;
+    });
+
+    return sumScore;
+}
+
+export function calcTotalScoreMultipleRest(rest:Restaurant[]){
+    let resault = [];
+    rest.forEach((restaurant:Restaurant)=>{
+        let sumScore:number = 0;
+        let scoreLen = restaurant.score.length; 
+        restaurant.score.forEach((score:number)=>{
+            sumScore += score;
+        });
+
+        let totalScore:number = Number((sumScore));
+        resault.push({...restaurant,score:totalScore});
+    });
+    
+    return resault;
+}
