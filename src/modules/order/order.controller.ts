@@ -2,6 +2,8 @@ import {Cart,Product,Restaurant,User,Owner,Order, PrismaClient } from '@prisma/c
 const prisma = new PrismaClient();
 import {IGetAuthRequest} from '../../utils/types/req';
 import express,{Request,Response,NextFunction} from 'express';
+import { restId } from 'src/utils/validators/detail.validator';
+import { set } from 'lodash';
 
 
 export async function createOrder(req:IGetAuthRequest,res:Response){
@@ -20,15 +22,29 @@ export async function createOrder(req:IGetAuthRequest,res:Response){
         }
         let sumPrice = 0;
         cart.sort((rest1,rest2)=> rest1.restaurantId - rest2.restaurantId);
+        let restIds = [];
         cart.forEach((item:Cart)=>{
+            restIds.push(Number(item.restaurantId));
             sumPrice += (+item.count * +item.price);
         });
         
+        restIds = [...new Set(restIds)];
+        const restaurants = await prisma.restaurant.findMany({
+            where:{
+                id:{in:restIds}
+            }
+        });
+        if(!restaurants){
+            return res.status(422).json({message:'هزینه پیک رستوران محاسبه نشد!'});
+        }
+        const sumDelivery = restaurants.reduce(
+            (accumlator,restaurant) => accumlator + restaurant.delivery,0);
         return res
             .status(201)
             .json({
                 cart,
                 totalPrice:sumPrice,
+                totalDelivery:sumDelivery,
                 productCount:cart.length
             });
     }catch(e){
@@ -58,7 +74,9 @@ export async function submitOrder(req:IGetAuthRequest,res:Response){
         let orders:myOrder;
         let step:number = 0;
         const time = Date.now();
+        let restIds = [];
         carts.forEach(async(cart,index:number)=>{
+            restIds.push(Number(cart.restaurantId));
             if(!currentRestaurnat){
                 totalPrice += (+cart.count * +cart.price);
                 orders = {products:[cart.product],totalPrice};
@@ -133,6 +151,8 @@ export async function submitOrder(req:IGetAuthRequest,res:Response){
                 // }
             }
         });
+
+    restIds = [...new Set(restIds)];
     const submitedOrders = await prisma.order.findMany({
         where:{time}
     });
@@ -140,10 +160,24 @@ export async function submitOrder(req:IGetAuthRequest,res:Response){
         return res.status(422).json({message:'سفارش شما ثبت نشده است!'});
     }
     await prisma.cart.deleteMany({where:{userId}});
-    
+
+    const restaurants = await prisma.restaurant.findMany({
+        where:{id:{in:restIds}
+    }});
+    if(restaurants.length === 0){
+        return res
+            .status(422)
+            .json({message:'در بارگذاری رستوران ها برای محاسبه هزینه ارسال به مشکل برخوردیم!'});
+    }
+
+    let delivery = 0;
+    restaurants.forEach((restaurant)=>{
+        delivery += restaurant.delivery;
+    });
+
     return res
         .status(201)
-        .json(submitedOrders);
+        .json({...submitedOrders,delivery});
     }catch(e){
         return res.status(419).json({error:e});
     }
@@ -180,15 +214,3 @@ function addOrders(totalPrice:number,product:Product):myOrder{
     }
 }
 
-async function test(){
-    const carts:Cart[] = await prisma.cart.findMany({include:{product:true,restaurant:true,user:true}});
-    if(carts.length === 0){
-        console.log(carts);
-        return false;
-    }
-    
-    console.log(carts);
-}
-console.log(Date.now());
-
-// test();

@@ -10,7 +10,7 @@ router
 
 router  
     .route('/submit')
-    .get(auth.authUser,controller.submitOrder);
+    .post(auth.authUser,controller.submitOrder);
 
 router 
     .route('/all')
