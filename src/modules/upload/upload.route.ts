@@ -24,7 +24,7 @@ const config = {
 }
 // npm install aws-sdk@2.1474.0
 
-const S3 = new S3Client({
+const S3 = new AWS.S3({
     ...config,
     credentials:
         {
@@ -36,6 +36,7 @@ const S3 = new S3Client({
 const s3 = new S3Client({
     endpoint:liara_endpoint,
     region:'defualt',
+    bucketEndpoint:true,
     credentials:{
         accessKeyId:liara_access_key,
         secretAccessKey:liara_secert_key,
@@ -43,7 +44,7 @@ const s3 = new S3Client({
 });
 let upload = multer({
     storage: multerS3({
-        s3:s3,
+        s3:S3 as any,
         bucket:liara_bucket_name + "/logo",
         key:function(req,file,cb){
             file.originalname =
@@ -57,9 +58,31 @@ let upload = multer({
 router
     .route('/rest/logo')
     .post(
-       // auth.authOwner,
-        upload.single('logo'),
+        auth.authOwner,
+        uploader('/restaurant/logo').single('logo'),
         controller.changeLogo
+    );
+
+router
+    .route('/rest/banner')
+    .post(
+        auth.authOwner,
+        uploader('/restaurant/banner').single('banner'),
+        controller.changeBanner,
+    );
+
+router
+    .route('/preview')
+    .post(
+        controller.preview,
+    );
+
+router
+    .route('/product/image')
+    .post(
+        auth.authOwner,
+        uploader('/product/image').single('image'),
+        controller.changeProductImage,
     );
 
 export default router;
