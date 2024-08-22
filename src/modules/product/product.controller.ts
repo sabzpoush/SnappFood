@@ -2,6 +2,7 @@ import { Owner,PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express,{Request,Response,Express,NextFunction} from 'express';
 import { IGetAuthRequest } from 'src/utils/types/req';
+import {findMostRepeatedItem} from '../../utils/helper/findSome';
 
 
 export async function newProduct(req:IGetAuthRequest,res:Response) {
@@ -123,4 +124,68 @@ export async function changeProductPrice(req:IGetAuthRequest,res:Response){
         .json({
             message:`قیمت محصول ${title} به مقدار ${newPrice} تغییر یافت!`
         });
+}
+
+export async function topPurchasedProduct(req:Request,res:Response){
+    const products = await prisma.product.findMany();
+    if(products.length === 0){
+        return res.status(422).json({message:'محصولی در سایت موجود نیست!'});
+    }
+    const orders = await prisma.order.findMany({});
+    if(orders.length === 0){
+        return res.status(422).json({message:'سفارشی در سایت ثبت نشده است!'});
+    }
+
+    let result = [];
+    orders.forEach((order)=>{
+        order.products.forEach((item:any)=>{
+            const id:number = Number(+item.id);
+            result.push(id);
+        });        
+    });
+    
+    let topProducts = []
+    for(let i = 1;i <= 4;i++){
+        const topProduct = Number(findMostRepeatedItem(result));
+        result = result.filter((item)=>{
+            return Number(item) != Number(topProduct);
+        });
+        
+        topProducts.push(topProduct);
+    }
+    
+    const selectedProducts = await prisma.product.findMany({
+        where:{
+            id:{
+                in:topProducts
+            }
+        },
+        include:{
+            restaurant:true
+        }
+    });
+    if(!selectedProducts){
+        return res.status(422).json({message:'محصولی برای نمایش نیست!'});
+    }
+
+    return res.status(200).json(selectedProducts);
+}
+
+export async function changeProductIsActive(req:IGetAuthRequest,res:Response) {
+    const {productId} = req.body;
+
+    const product = await prisma.product.findUnique({where:{id:+productId}});
+    if(!product){
+        return res.status(422).json({message:'محصول انتخابی شما یافت نشد!'});
+    }
+
+    const isActive = product.isActive ? false : true;
+
+    const changeProductIsActive = await prisma.product.update({where:{id:product.id},data:{isActive}});
+    if(!changeProductIsActive){
+        return res.status(422).json({message:'خطا! مشکلی رخ داد!'});
+    }
+    
+    const message:string = isActive ? `${product.title} این کالا موجود شد.` : `${product.title} این کالا ناموجود شد!`;
+    return res.status(203).json({message,product:changeProductIsActive});
 }

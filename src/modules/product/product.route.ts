@@ -13,4 +13,20 @@ router
     .route('/self')
     .post(auth.authOwner,controller.selfRestProduct);
 
+router
+    .route('/delete')
+    .delete(auth.authOwner,controller.deleteProduct);
+
+router
+    .route('/change/price')
+    .put(auth.authOwner,controller.changeProductPrice);
+
+router
+    .route('/top/order')
+    .get(controller.topPurchasedProduct);
+
+router
+    .route('/is/active')
+    .put(auth.authOwner,controller.changeProductIsActive);
+
 export default router;
