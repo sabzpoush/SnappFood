@@ -1,6 +1,6 @@
 import {body,query,param} from 'express-validator';
 
-export function deleteCategory(){
+export function restId(){
     return [
         query('id')
             .notEmpty()

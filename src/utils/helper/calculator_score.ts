@@ -1,15 +1,16 @@
 import { Restaurant, PrismaClient } from '@prisma/client';
+import { number } from 'joi';
 //const prisma = new PrismaClient();
 
-export function calcScore(rest:Restaurant):number{
+export function calcScore(rest:Restaurant){
     let sumScore:number = 0;
     let scoreLen:number = rest.score.length;
     rest.score.forEach((score:number)=>{
         sumScore += score;
     });
-
+    
     let avgScore:number = Number((sumScore / scoreLen).toFixed(1));
-    return avgScore;
+    return {...rest,avgScore,sumScore};
 }
 
 export function calcMultipleScore(rest:Restaurant[]){
@@ -22,7 +23,7 @@ export function calcMultipleScore(rest:Restaurant[]){
         });
 
         let avgScore:number = Number((sumScore / scoreLen).toFixed(1));
-        resault.push({...restaurant,score:avgScore});
+        resault.push({...restaurant,avgScore});
     });
 
     return resault;
@@ -48,7 +49,8 @@ export function calcTotalScoreMultipleRest(rest:Restaurant[]){
         });
 
         let totalScore:number = Number((sumScore));
-        resault.push({...restaurant,score:totalScore});
+        let avgScore:number = Number((sumScore / scoreLen).toFixed(1));
+        resault.push({...restaurant,totalScore,avgScore});
     });
     
     return resault;

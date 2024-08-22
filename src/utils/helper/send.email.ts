@@ -27,35 +27,33 @@ export async function sendEmail(email:string,subject:string,body:string){
 
 }
 
-//export async 
-async function sendCode(email:string){
-    const transporter = nodemailer.createTransport({
-        service:"gmail",
-        auth:{
-            user:"amirsabz84@gmail.com",
-            pass:"hnvo ffgx jqls vvfp"
-        }
+
+export async function sendCode(email:string){
+    return new Promise(async (reslove,reject)=>{
+        const transporter = nodemailer.createTransport({
+            service:"gmail",
+            auth:{
+                user:"amirsabz84@gmail.com",
+                pass:"hnvo ffgx jqls vvfp"
+            }
+        });
+    
+        const code = makeCode(6);
+        const tempelate = email2FATemplate(code)
+        const messageOption = {
+            from:"amirsabz84@gmail.com",
+            to:email,
+            subject:'Your 2FA Code',
+            html:tempelate,
+            
+        };
+    
+        await transporter.sendMail(messageOption,(err,info)=>{
+            if(err){
+                reject(err);
+            }
+            console.log("email send");
+        });
+        reslove(code);
     });
-
-    const code = makeCode(6);
-    const tempelate = email2FATemplate(code)
-    const messageOption = {
-        from:"amirsabz84@gmail.com",
-        to:email,
-        subject:'Your 2FA Code',
-        html:tempelate,
-        
-    };
-
-    await transporter.sendMail(messageOption,(err,info)=>{
-        if(err){
-            throw err;
-        }
-        console.log("email send");
-    });
-
 }
-
-sendCode('amirken84@gmail.com')
-    .then(()=>console.log('done!'))
-    .catch(e=>console.error);

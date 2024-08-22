@@ -1,13 +1,15 @@
 import express,{Express,Request,Response,NextFunction } from "express";
+import {User,Owner} from '@prisma/client';
 
 export interface IGetAuthRequest extends Request{
-    user?:any,
-    userId?:number,
-    owner?:any,
-    ownerId?:number,
+    user?:User;
+    userId?:number;
+    owner?:Owner;
+    ownerId?:number;
+    email:string;
 }
 
-export interface IGetUploadRequest extends IGetAuthRequest,Request{
+export interface IGetUploadRequest extends IGetAuthRequest{
     location: string;
     fieldname: string;
     originalname: string;
