@@ -1,7 +1,8 @@
-import { Restaurant,Owner, PrismaClient } from '@prisma/client';
+import { Restaurant,Owner, PrismaClient, Order } from '@prisma/client';
 const prisma = new PrismaClient();
 import express,{Express,Request,Response,NextFunction} from 'express';
 import {IGetAuthRequest} from '../../utils/types/req';
+import {calcTotalScoreMultipleRest,calcMultipleScore} from '../../utils/helper/calculator_score';
 
 
 export async function createRest(req:IGetAuthRequest,res:Response) {
@@ -67,7 +68,7 @@ export async function ownerSelfRest(req:IGetAuthRequest,res:Response) {
 export async function allRestaurant(req:Request,res:Response) {
     const restarurants = await prisma.restaurant.findMany({
         include:{
-            owner:true
+            owner:false
         }
     });
 
@@ -75,7 +76,10 @@ export async function allRestaurant(req:Request,res:Response) {
         return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
     }
 
-    res.status(200).json(restarurants);
+    //const avgScore = calcMultipleScore(restarurants);
+    const totalScore = calcTotalScoreMultipleRest(restarurants);
+
+    res.status(200).json(totalScore);
 };
 
 export async function searchRestaurant(req:Request,res:Response){
@@ -86,4 +90,94 @@ export async function searchRestaurant(req:Request,res:Response){
     };
 
     return res.status(200).json({restaurant:rest});
+}
+
+export async function giveScore(req:IGetAuthRequest,res:Response){
+    const userId = req.userId;
+    const user = req.user;
+    
+    let {restId,score} = req.body;
+
+    score = Number(score).toFixed(1);
+    const restaurant = await prisma.restaurant.update({
+        where: {id:+restId},
+        data: {
+            score:{
+                push:+score,
+            }
+        },
+    });
+    if(!restaurant){
+        return res.status(422).json({message:'رستوران مورد نظر شما یافت نشد!'});
+    };
+
+    return res.status(200).json({restaurant});
+}
+
+export async function topScoreRestaurant(req:Request,res:Response) {
+    const restarurants = await prisma.restaurant.findMany({});
+    if(restarurants.length=== 0){
+        return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'})
+    };
+
+    const calcutRest = calcTotalScoreMultipleRest(restarurants);
+    calcutRest.sort((a:any,b:any)=> b.avgScore - a.avgScore);
+
+    return res.status(200).json(calcutRest);
+}
+
+export async function topViewedRestaurant(req:Request,res:Response){
+    const restaurants = (await prisma.restaurant.findMany({})).sort((a,b)=> b.watchCount - a.watchCount);
+    if(restaurants.length === 0){
+        return res.status(422).json({message:'رستورانی در سایت وجود ندارد!'});
+    }
+
+    return res.status(200).json(restaurants);
+}
+
+export async function topOrderCountRestaurant(req:Request,res:Response){
+    const orders = (await prisma.order.findMany()).sort((a,b)=>a.restaurantId - b.restaurantId);
+    if(orders){
+        return res.status(422).json({message:'سفارشی در رستوران ثبت نشده است!'});
+    }
+
+    const restaurants = await prisma.restaurant.findMany();
+    if(restaurants.length === 0){
+        return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
+    }
+    let orderCount = 0;
+    let topRest = [];
+    restaurants.forEach((rest:Restaurant)=>{
+        orders.forEach((order:Order)=>{
+            if(+rest.id === +order.restaurantId){
+                orderCount +=1;
+            }
+        });
+        topRest.push({...rest,orderCount});
+    });
+
+    topRest.sort((a:any,b:any)=> b.orderCount - a.orderCount);
+
+    return res.status(422).json(topRest);
+}
+
+export async function changeDeliveryPrice(req:IGetAuthRequest,res:Response){
+    const ownerId = req.ownerId;
+    const owner =  req.owner;
+
+    const {price} = req.body;
+
+    const restaurant = await prisma.restaurant.update({
+        where:{ownerId:+ownerId},
+        data:{delivery:+price}
+    });
+    if(!restaurant){
+        return res
+            .status(422)
+            .json({message:'در تغییر قیمت ارسال پیک مشکلی پیش امد!'});
+    }
+
+    return res
+        .status(203)
+        .json({message:`قیمت پیک رستوران شما به ${price} تغییر یافت!`,restaurant});
 }
