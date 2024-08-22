@@ -7,7 +7,7 @@
 generator client {
   provider   = "prisma-client-js"
   engineType = "library"
-  output = "./../node_modules/.prisma/client"
+  output     = "./../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -26,25 +26,25 @@ model Owner {
   state        String?
   city         String?
   Restaurant   Restaurant?
+  signUpDate   DateTime    @default(now())
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  fullName     String  @db.VarChar(255)
-  email        String  @unique
-  phone        String  @unique
-  profile      String?
+  id           Int      @id @default(autoincrement())
+  fullName     String?  @db.VarChar(255)
+  email        String   @unique
+  phone        String?
   refreshToken String?
-  password     String
   Cart         Cart[]
   Order        Order[]
+  signUpDate   DateTime @default(now())
 }
 
 model Restaurant {
   id          Int        @id @default(autoincrement())
   title       String     @db.VarChar(255)
   description String?
-  score       Int[]      @default([5])
+  score       Float[]    @default([5])
   body        String?
   banner      String?
   picture     String?
@@ -52,13 +52,16 @@ model Restaurant {
   address     String?
   phone       String[]
   workTime    String?
+  delivery    Int?       @default(0)
   owner       Owner      @relation(fields: [ownerId], references: [id])
   ownerId     Int        @unique
   href        String?    @unique
+  watchCount  Int?       @default(0)
   Category    Category[]
   Product     Product[]
   Cart        Cart[]
   Order       Order[]
+  createdAt   DateTime   @default(now())
 }
 
 model Category {
@@ -68,6 +71,7 @@ model Category {
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId Int
   Product      Product[]
+  createdAt    DateTime   @default(now())
 }
 
 model Product {
@@ -76,6 +80,7 @@ model Product {
   picture     String?
   description String?
   price       Int
+  isActive    Boolean    @default(true)
   discount    Int        @default(0)
   restaurant  Restaurant @relation(fields: [restId], references: [id])
   restId      Int
@@ -85,11 +90,13 @@ model Product {
 }
 
 model Comment {
-  id    Int      @id @default(autoincrement())
-  title String
-  body  String
-  date  DateTime @default(now())
-  stats Int      @default(0)
+  id      Int      @id @default(autoincrement())
+  title   String
+  body    String
+  date    DateTime @default(now())
+  stats   Int      @default(0)
+  order   Order    @relation(fields: [orderId], references: [id])
+  orderId Int
 }
 
 model Cart {
@@ -119,4 +126,6 @@ model Order {
   restaurantId Int
   userId       Int
   time         BigInt?
+  createdAt    DateTime   @default(now())
+  Comment      Comment[]
 }
