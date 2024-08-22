@@ -1,6 +1,8 @@
 import express,{Express,Request,Response,Router} from 'express';
 import * as auth from '../../middlewares/owner.auth';
 import * as controller from './category.controller';
+import * as validator from './../../utils/validators/category.validator';
+import {validate} from './../../middlewares/validate';
 
 
 const router:Router = express.Router();
@@ -11,7 +13,7 @@ router
 
 router 
     .route('/delete')
-    .post(auth.authOwner,controller.deleteCategory);
+    .delete(auth.authOwner,validator.deleteCategory(),validate,controller.deleteCategory);
 
 router
     .route('/self')

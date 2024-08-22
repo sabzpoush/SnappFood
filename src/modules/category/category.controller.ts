@@ -42,23 +42,22 @@ export async function deleteCategory(req:IGetAuthRequest,res:Response) {
 
     const {id} = req.query;
     
-    const removeCategory = await prisma.category.delete({
-        where:{
-            id:+id,
-            AND:[
-                {restaurantId:ownerId},
-                {restaurantId:owner.id}
-            ]
+    try{
+        const removeCategory = await prisma.category.delete({
+            where:{
+                id:+id,
+            }
+        });
+        if(!removeCategory){
+            return res.status(422).json({message:'حذف دسته بندی شما با خطا مواجه شد!'});
         }
-    });
-    if(!removeCategory){
-        return res.status(422).json({message:'حذف دسته بندی شما با خطا مواجه شد!'});
-    }
+        return res
+            .status(422)
+            .json({message:'دسته بندی انتخابی شما با موفقیت حذف گردید!',deleted:removeCategory});
+    }catch(e){
+        return res.status(422).json({message:'دسته بندی مورد نظر قبلا حذف شده است'});
+    }   
     
-    return res
-        .status(422)
-        .json({message:'دسته بندی انتخابی شما با موفقیت حذف گردید!',deleted:removeCategory});
-
 };
 
 export async function selfCategory(req:IGetAuthRequest,res:Response){
@@ -91,7 +90,7 @@ export async function selfCategory(req:IGetAuthRequest,res:Response){
     }catch(e){
         return res
             .status(422)
-            .json({message:'مشکلی ناشناخته بودجود امده است!',error:e});
+            .json({message:'مشکلی بودجود امده است!',error:e});
     }
     
 };
