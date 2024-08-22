@@ -15,6 +15,7 @@ import cartRouter from './modules/cart/cart.route';
 import orderRouter from './modules/order/order.route';
 import detailRouter from './modules/detail/detail.route';
 import uploadRouter from './modules/upload/upload.route';
+import authRouter from './modules/auth/auth.route';
 
 // Init App
 const app:Express = express();
@@ -40,6 +41,7 @@ app.use('/cart',cartRouter);
 app.use('/order',orderRouter);
 app.use('/detail',detailRouter);
 app.use('/upload',uploadRouter);
+app.use('/auth',authRouter);
 
 // Server Route 
 app.get('/',(req:Request,res:Response)=>{
