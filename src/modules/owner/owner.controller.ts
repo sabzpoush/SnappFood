@@ -86,8 +86,8 @@ export async function singIn(req:Request,res:Response){
 };
 
 export async function resetPassword(req:IGetAuthRequest,res:Response) {
-    const ownerId = req.userId;
-    const owner:Owner = req.user;
+    const ownerId = req.ownerId;
+    const owner:Owner = req.owner;
     
     const {newPassword} = req.body;
     const salt = bcrypt.genSaltSync(10);
