@@ -1,5 +1,5 @@
 import express,{Express,Request,Response,NextFunction,Router} from 'express';
-import * as controller from './restaurant.controller'; 
+import * as controller from './restaurant.ai'; 
 import * as validator from '../../utils/validators/restaurant.validator';
 import {validate} from '../../middlewares/validate';
 import * as auth from '../../middlewares/owner.auth';

@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 import express,{Express,Request,Response,NextFunction} from 'express';
 import {IGetAuthRequest} from '../../utils/types/req';
 import {calcTotalScoreMultipleRest,calcMultipleScore} from '../../utils/helper/calculator_score';
+import * as cache from '../../config/cache/redis.config';
 
 
 export async function createRest(req:IGetAuthRequest,res:Response) {
@@ -66,20 +67,30 @@ export async function ownerSelfRest(req:IGetAuthRequest,res:Response) {
 };
 
 export async function allRestaurant(req:Request,res:Response) {
-    const restarurants = await prisma.restaurant.findMany({
-        include:{
-            owner:false
+    try{
+        const cacheData = await cache.getCacheData('allRest');
+        if(!cacheData){
+            const restarurants = await prisma.restaurant.findMany({
+                include:{
+                    owner:false
+                }
+            });
+        
+            if(restarurants.length === 0 ){
+                return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
+            }
+        
+            const totalScore = calcTotalScoreMultipleRest(restarurants);
+            await cache.setCacheData('allRest',totalScore);
+            return res.status(200).json(totalScore);
+
+        }else{
+            return res.status(200).json(cacheData);
         }
-    });
 
-    if(restarurants.length === 0 ){
-        return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
+    }catch(e){
+        return res.status(404).json({message:'در بارگذاری رستوران ها مشکلی پیش امد!',error:e})
     }
-
-    //const avgScore = calcMultipleScore(restarurants);
-    const totalScore = calcTotalScoreMultipleRest(restarurants);
-
-    res.status(200).json(totalScore);
 };
 
 export async function searchRestaurant(req:Request,res:Response){
@@ -115,15 +126,25 @@ export async function giveScore(req:IGetAuthRequest,res:Response){
 }
 
 export async function topScoreRestaurant(req:Request,res:Response) {
-    const restarurants = await prisma.restaurant.findMany({});
-    if(restarurants.length=== 0){
-        return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'})
-    };
+    try{
+        const cacheData = await cache.getCacheData('topScoreRest');
+        if(!cacheData){
+            const restarurants = await prisma.restaurant.findMany({});
+            if(restarurants.length=== 0){
+                return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'})
+            };
+        
+            const calcutRest = calcTotalScoreMultipleRest(restarurants);
+            calcutRest.sort((a:any,b:any)=> b.avgScore - a.avgScore);
+            await cache.setLimtedTimeCacheData('topScoreRest',calcutRest,3600);
+            return res.status(200).json(calcutRest);
+        }else{
+            return res.status(200).json(cacheData);
+        }
 
-    const calcutRest = calcTotalScoreMultipleRest(restarurants);
-    calcutRest.sort((a:any,b:any)=> b.avgScore - a.avgScore);
-
-    return res.status(200).json(calcutRest);
+    }catch(e){
+        return res.status(422).json({message:'در بارگذاری رستوران ها مشکلی بوجود امد!',error:e});
+    }
 }
 
 export async function topViewedRestaurant(req:Request,res:Response){
@@ -136,29 +157,39 @@ export async function topViewedRestaurant(req:Request,res:Response){
 }
 
 export async function topOrderCountRestaurant(req:Request,res:Response){
-    const orders = (await prisma.order.findMany()).sort((a,b)=>a.restaurantId - b.restaurantId);
-    if(orders){
-        return res.status(422).json({message:'سفارشی در رستوران ثبت نشده است!'});
-    }
-
-    const restaurants = await prisma.restaurant.findMany();
-    if(restaurants.length === 0){
-        return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
-    }
-    let orderCount = 0;
-    let topRest = [];
-    restaurants.forEach((rest:Restaurant)=>{
-        orders.forEach((order:Order)=>{
-            if(+rest.id === +order.restaurantId){
-                orderCount +=1;
+    try{
+        const cacheData = await cache.getCacheData('topOrderRest');
+        if(!cacheData){
+            const orders = (await prisma.order.findMany()).sort((a,b)=>a.restaurantId - b.restaurantId);
+            if(!orders){
+                return res.status(422).json({message:'سفارشی در رستوران ثبت نشده است!'});
             }
-        });
-        topRest.push({...rest,orderCount});
-    });
+        
+            const restaurants = await prisma.restaurant.findMany();
+            if(restaurants.length === 0){
+                return res.status(422).json({message:'رستورانی در سایت ثبت نشده است!'});
+            }
+            let orderCount = 0;
+            let topRest = [];
+            restaurants.forEach((rest:Restaurant)=>{
+                orders.forEach((order:Order)=>{
+                    if(+rest.id === +order.restaurantId){
+                        orderCount +=1;
+                    }
+                });
+                topRest.push({...rest,orderCount});
+            });
+        
+            topRest.sort((a:any,b:any)=> b.orderCount - a.orderCount);
+            await cache.setCacheData('topOrderRest',topRest);
+            return res.status(200).json(topRest);
+        }else{
+            return res.status(200).json(cacheData);
+        }
 
-    topRest.sort((a:any,b:any)=> b.orderCount - a.orderCount);
-
-    return res.status(422).json(topRest);
+    }catch(e){
+        return res.status(404).json({message:'مشکلی بوجود امد!',error:e});
+    }
 }
 
 export async function changeDeliveryPrice(req:IGetAuthRequest,res:Response){
