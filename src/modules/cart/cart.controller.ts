@@ -8,7 +8,6 @@ export async function addToCart(req:IGetAuthRequest,res:Response) {
     try{
         const userId = req.userId;
         const user = req.user;
-        console.log(userId);
         
         const {productId} = req.body;
         const product = await prisma.product.findUnique({where:{id:+productId}});
@@ -85,13 +84,38 @@ export async function myCart(req:IGetAuthRequest,res:Response){
     
         const cart = await prisma.cart.findMany({
             where:{userId},
-            include:{restaurant:true, user:true, product:true}
-        });
+            include:{
+                restaurant:{
+                    select:{
+                        id:true,
+                        title:true,
+                        picture:true,
+                        logo:true,
+                        banner:true,
+                        address:true,
+                        delivery:true,
+                        href:true
+                    }
+                }, 
+                // user:true,
+                product:{
+                    select:{
+                        id:true,
+                        title:true,
+                        picture:true,
+                        description:true,
+                        price:true,
+                        restId:true,
+                        discount:true,
+                        categoryId:true
+                    }
+                }
+            }});
         if(cart.length === 0){
             return res.status(422).json({message:'سبد خرید شما خالی است!'});
         }
     
-        res.status(200).json(cart);
+        return res.status(200).json({user,cart});
     }catch(e){  
         return res.status(422).json({message:'مشکلی در این عملیات پیش امده است!',error:e});
     }
@@ -219,37 +243,43 @@ export async function deleteFromCart(req:IGetAuthRequest,res:Response){
 export async function decreaseProductCount(req:IGetAuthRequest,res:Response){
     try{
         const userId = req.userId;
-    const user = req.user;
+        const user = req.user;
 
-    const {productId} = req.body;
-    const product = await prisma.product.findUnique({where:{id:productId}});
-    if(!product){
-        return res.status(422).json({message:'محصول مورد نظر شما یافت نشد!'});
-    }
-
-    const cart = await prisma.cart.findFirst({where:{AND:[{userId},{products:productId}]}});
-    if(!cart){
-        return res.status(422).json({message:'سبد خرید شما یافت نشد!'});
-    }
-
-    let count = cart.count - 1;
-    let price = cart.price - (product.price);
-    if(count <= 0){
-        const removeOfCart = await prisma.cart.delete({where:{id:cart.id}});
-        if(!removeOfCart){
-            return res.status(422).json({message:'در حذف محصول از سبد خرید مشکلی پیش امد!'});
+        const {productId} = req.body;
+        const product = await prisma.product.findUnique({where:{id:productId}});
+        if(!product){
+            return res.status(422).json({message:'محصول مورد نظر شما یافت نشد!'});
         }
 
-        return res.status(203).json({message:'محصول از سبد خرید شما حذف شد!'});
-    }
+        const cart = await prisma.cart.findFirst({where:{AND:[{userId},{products:productId}]}});
+        if(!cart){
+            return res.status(422).json({message:'سبد خرید شما یافت نشد!'});
+        }
 
-    const removeFromCart = await prisma.cart.update({where:{id:cart.id},data:{count,price}});
-    if(!removeFromCart){
-        return res.status(422).json({message:'در کاهش تعداد محصول مشکلی رخ داده است!'});
-    }
+        let count = cart.count - 1;
+        let price = cart.price - (product.price);
+        if(count <= 0){
+            const removeOfCart = await prisma.cart.delete({where:{id:cart.id}});
+            if(!removeOfCart){
+                return res.status(422).json({message:'در حذف محصول از سبد خرید مشکلی پیش امد!'});
+            }
 
-    return res.status(200).json({message:`یک عدد از ${product.title} کم شد!`});
+            return res
+                .status(203)
+                .json({message:'محصول از سبد خرید شما حذف شد!'});
+        }
+
+        const removeFromCart = await prisma.cart.update({where:{id:cart.id},data:{count,price}});
+        if(!removeFromCart){
+            return res.status(422).json({message:'در کاهش تعداد محصول مشکلی رخ داده است!'});
+        }
+
+        return res
+            .status(200)
+            .json({message:`یک عدد از ${product.title} کم شد!`});
     }catch(e){
-        return res.status(422).json({message:"در انجام این عملیات دچار مشکل شدیم!",error:e});
+        return res
+        .status(422)
+        .json({message:"در انجام این عملیات دچار مشکل شدیم!",error:e});
     }
 }

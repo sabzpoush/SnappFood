@@ -26,7 +26,7 @@ router
 
 router 
     .route('/decrease')
-    .delete(auth.authUser,controller.decreaseProductCount);
+    .post(auth.authUser,controller.decreaseProductCount);
 
 
 export default router;
