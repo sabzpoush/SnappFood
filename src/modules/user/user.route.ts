@@ -1,21 +1,17 @@
-import express,{Request,Response,NextFunction,Router} from 'express';
-import * as auth from '../../middlewares/user.auth';
-import * as controller from './user.controller';
-import * as middleware from '../../middlewares/code.validation';
+import express, { Router } from 'express';
+import * as auth from '../../middlewares/user.auth';           // Importing authentication middleware
+import * as controller from './user.controller';               // Importing user controller functions
+import * as middleware from '../../middlewares/code.validation'; // Importing validation middleware
 
+const router: Router = express.Router();  // Initialize the Express router
 
-const router:Router = express.Router();
+// Route for signing up a new user
+router.post('/sign', controller.signUp);
 
-router
-    .route('/sign')
-    .post(controller.signUp);
+// Route for signing in an existing user
+router.post('/login', controller.singIn);
 
-router
-    .route('/login')
-    .post(controller.singIn);
+// Combined sign-up or sign-in route with email validation
+router.post('/signin', middleware.validateEmail, controller.signUpOrSignIn);
 
-router
-    .route('/signin')
-    .post(middleware.validateEmail,controller.signUpOrSignIn);
-
-export default router;
+export default router;  // Export the router to be used in the main application
