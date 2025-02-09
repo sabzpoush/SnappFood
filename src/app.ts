@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import swaggerUi from 'swagger-ui-express';
 
 // Import The Routers
 import ownerRouter from './modules/owner/owner.route';
@@ -18,8 +17,6 @@ import detailRouter from './modules/detail/detail.route';
 import uploadRouter from './modules/upload/upload.route';
 import authRouter from './modules/auth/auth.route';
 
-import swaggerDocument from '../swagger.json';
-
 // Init App
 const app:Express = express();
 
@@ -31,8 +28,6 @@ app.use(cookieParser('my-secret-key'));
 app.use(express.urlencoded({extended:false}));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
-// Init Swagger 
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Init The Express Static
 
