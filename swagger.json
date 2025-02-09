@@ -1,0 +1,143 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Example API",
+      "version": "1.0.0",
+      "description": "API Documentation For Snapp Food Clone"
+    },
+    "servers": [
+      { "url": "http://localhost:3000", "description": "Local Server"},
+      {"url": "https://kala.liara.run","description": "Deployed Server"}
+    ],
+    "tags": [{
+      "name": "Restaurant",
+      "description": "Manage Owner Restaurant"
+    }],
+    "paths": {
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/product":{
+        "post":{
+          "tags": ["Restaurant"],
+          "summary": "Get All Product",
+          "responses": {
+            "200":{
+                "description": "Return All Submited Product"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Owner":{
+          "type": "object",
+          "properties": {
+            "id":{"type": "string"},
+            "fullName":{"type": "string"},
+            "email":{"type": "string"},
+            "phone":{"type": "string"},
+            "profile":{"type": "string"},
+            "refreshToken":{"type": "string"},
+            "password":{"type": "string"},
+            "state":{"type": "string"},
+            "city":{"type": "string"},
+            "Restaurant":{"type": "object"},
+            "signUpDate":{"type": "string"}
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "fullName": { "type": "string" },
+            "email" :{"type": "string"},
+            "phone" :{"type": "string"},
+            "refreshToken" :{"type": "string"},
+            "Cart" :{"type": "array","items":{"title": "Order","type": "object"}},
+            "Order" :{"type": "array"},
+            "signUpDate" :{"type": "string"}
+          }
+        },
+        "Restaurant":{
+          "type": "object",
+          "properties": {
+            "id":{"type": "string"},
+            "title":{"type": "string","nullable": false},
+            "description" : {"type": "string"},
+            "score":{"type":"integer"},
+            "body":{"type":"string"},
+            "banner":{"type":"string"},
+            "picture":{"type":"string"},
+            "logo":{"type":"string"},
+            "address":{"type":"string"},
+            "phone":{"type":"string"},
+            "workTime":{"type":"string"},
+            "delivery":{"type":"integer"},
+            "owner":{"type":"string"},
+            "ownerId":{"type":"string"},
+            "href":{"type":"string"},
+            "watchCount":{"type":"integer"},
+            "Category":{"type":"array"},
+            "Product":{"type":"array"},
+            "Cart":{"type":"array"},
+            "Order":{"type":"array","items":{"type": "object"}},
+            "createdAt":{"type": "string"}
+          }
+        },
+        "Category":{
+          "type": "object",
+          "properties": {
+            "id":{"type": "string"},
+            "title":{"type": "string"},
+            "href":{"type": "string"},
+            "restaurant":{"type": "object"},
+            "restaurantId":{"type": "string"},
+            "Product":{"type": "array","items":{"type": "object"}},
+            "createdAt":{"type": "string"}
+          }
+        },
+        "Cart":{
+          "type": "object",
+          "properties": {
+            "id":{"type":"string"},
+            "user":{"type":"string"},
+            "userId":{"type":"string"},
+            "product":{"type":"object"},
+            "products":{"type":"string"},
+            "restaurant":{"type":"string"},
+            "restaurantId":{"type":"string"},
+            "count":{"type":"integer"},
+            "price":{"type":"integer"},
+            "discount":{"type":"integer"}
+          }
+        },
+        "Order":{
+          "type": "object",
+          "properties": {
+            "id":{"type": "string"},
+            "restaurant":{"type": "string"},
+            "user":{"type": "string"},
+            "products":{"type": "string"},
+            "count":{"type": "integer"},
+            "address":{"type": "string"},
+            "price":{"type": "integer"},
+            "date":{"type": "string"},
+            "note":{"type": "string"},
+            "restaurantId":{"type": "string"},
+            "userId":{"type": "string"},
+            "time":{"type": "integer"},
+            "createdAt":{"type": "string"}
+          }
+        }
+      }
+    }
+  }
