@@ -1,7 +1,7 @@
 import { Owner,PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express,{Request,Response,Express,NextFunction} from 'express';
-import { IGetAuthRequest } from 'src/utils/types/req';
+import { IGetAuthRequest } from '../../utils/types/req';
 import {findMostRepeatedItem} from '../../utils/helper/findSome';
 
 

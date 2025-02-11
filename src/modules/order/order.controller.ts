@@ -2,7 +2,6 @@ import {Cart,Product,Restaurant,User,Owner,Order, PrismaClient } from '@prisma/c
 const prisma = new PrismaClient();
 import {IGetAuthRequest} from '../../utils/types/req';
 import express,{Request,Response,NextFunction} from 'express';
-import { restId } from 'src/utils/validators/detail.validator';
 import { set } from 'lodash';
 
 
@@ -207,6 +206,7 @@ type myOrder = {
     products:Product[],
     totalPrice:number
 }
+
 function addOrders(totalPrice:number,product:Product):myOrder{
     return {
         products:[product],

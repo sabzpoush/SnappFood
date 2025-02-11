@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 import {Request,Response} from 'express';
 import bcrypt from 'bcrypt';
 import * as token from '../../utils/token/jwt.token';
-import { IGetAuthRequest } from 'src/utils/types/req';
+import { IGetAuthRequest } from '../../utils/types/req';
 
 
 export async function register (req:Request,res:Response) {

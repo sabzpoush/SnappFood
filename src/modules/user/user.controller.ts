@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 import express,{Request,Response,NextFunction,Express} from "express";
 import * as bcrypt from 'bcrypt';
 import * as token from '../../utils/token/jwt.token';
-import { IGetAuthRequest } from 'src/utils/types/req';
+import { IGetAuthRequest } from '../../utils/types/req';
 
 
 // Helper function to validate email format
