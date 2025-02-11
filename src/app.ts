@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 
 // Import The Routers
 import ownerRouter from './modules/owner/owner.route';
@@ -28,6 +30,8 @@ app.use(cookieParser('my-secret-key'));
 app.use(express.urlencoded({extended:false}));
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
+// Init Swagger 
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Init The Express Static
 
