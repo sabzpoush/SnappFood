@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx tsc && node --watch ./dist/src/app.js",
-    "start": "node ./dist/app.js"
+    "start": "npx tsc && node ./dist/src/app.js"
   },
   "keywords": [],
   "author": "Amir",
