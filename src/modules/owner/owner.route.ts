@@ -8,13 +8,15 @@ const router:Router = express.Router();
 router
     .route('/register')
     .post(validator.register(),controller.register);
-
 router
-    .route('/users')
+    .route('/reset-password')
+    .post(controller.resetPassword);
+router
+    .route('/all-owners')
     .get(controller.allUsers);
 
 router
-    .route('/login')
+    .route('/sign-in')
     .post(validator.singIn(),controller.singIn);
 
 export default router;

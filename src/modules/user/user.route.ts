@@ -6,12 +6,15 @@ import * as middleware from '../../middlewares/code.validation'; // Importing va
 const router: Router = express.Router();  // Initialize the Express router
 
 // Route for signing up a new user
-router.post('/sign', controller.signUp);
+router.post('/sign-up', controller.signUp);
 
 // Route for signing in an existing user
-router.post('/login', controller.singIn);
+router.post('/sign-in', controller.singIn);
 
 // Combined sign-up or sign-in route with email validation
-router.post('/signin', middleware.validateEmail, controller.signUpOrSignIn);
+router.post('/sign-up-or-sign-in', middleware.validateEmail, controller.signUpOrSignIn);
+
+router.post('/edit-profile',auth.authUser, controller.editProfile);
+
 
 export default router;  // Export the router to be used in the main application

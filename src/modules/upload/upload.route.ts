@@ -56,7 +56,7 @@ let upload = multer({
 
 
 router
-    .route('/rest/logo')
+    .route('/change-logo')
     .post(
         auth.authOwner,
         uploader('/restaurant/logo').single('logo'),
@@ -64,7 +64,7 @@ router
     );
 
 router
-    .route('/rest/banner')
+    .route('/change-banner')
     .post(
         auth.authOwner,
         uploader('/restaurant/banner').single('banner'),
@@ -78,7 +78,7 @@ router
     );
 
 router
-    .route('/product/image')
+    .route('/change-product-image')
     .post(
         auth.authOwner,
         uploader('/product/image').single('image'),

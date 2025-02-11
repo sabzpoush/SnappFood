@@ -6,27 +6,24 @@ const router:Router = express.Router();
 
 
 router
-    .route('/new')
-    .post(auth.authOwner,controller.newProduct);
-
-router
-    .route('/self')
-    .post(auth.authOwner,controller.selfRestProduct);
+    .route('/manage')
+    .post(auth.authOwner,controller.newProduct)
+    .delete(auth.authOwner,controller.selfRestProduct)
 
 router
     .route('/delete')
     .delete(auth.authOwner,controller.deleteProduct);
 
 router
-    .route('/change/price')
+    .route('/price')
     .put(auth.authOwner,controller.changeProductPrice);
 
 router
-    .route('/top/order')
+    .route('/top-purchased')
     .get(controller.topPurchasedProduct);
 
 router
-    .route('/is/active')
+    .route('/active-status')
     .put(auth.authOwner,controller.changeProductIsActive);
 
 export default router;

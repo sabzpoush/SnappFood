@@ -24,23 +24,23 @@ router
     .post(controller.searchRestaurant);
 
 router
-    .route('/score/submit')
+    .route('/score')
     .post(authUser,validator.giveScore(),validate,controller.giveScore);
 
 router
-    .route('/top/score')
+    .route('/top-score')
     .get(controller.topScoreRestaurant);
 
 router
-    .route('/top/view')
+    .route('/top-viewed')
     .get(controller.topViewedRestaurant);
 
 router
-    .route('/top/order')
+    .route('/top-order-count')
     .get(controller.topOrderCountRestaurant);
 
 router
-    .route('/delivery/price')
+    .route('/delivery-price')
     .put(validator.changeDeliveryPrice(),validate,auth.authOwner,controller.changeDeliveryPrice);
 
 export default router;

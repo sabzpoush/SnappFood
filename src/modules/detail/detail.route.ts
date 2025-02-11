@@ -4,7 +4,7 @@ import * as controller from './detail.controller';
 const router:Router = express.Router();
 
 router
-    .route('/rest')
+    .route('/restaurant-menu')
     .get(controller.restaurantMenu);
 
 export default router;

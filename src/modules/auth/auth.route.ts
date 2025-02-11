@@ -5,11 +5,11 @@ import * as controller from './auth.controller';
 const router:Router = express.Router();
 
 router
-    .route('/send/code')
+    .route('/verify-email')
     .post(controller.verifyEmail);
 
 router
-    .route('/check/token')
+    .route('/remember-me')
     .post(controller.rememberMe);
 
 export default router;
