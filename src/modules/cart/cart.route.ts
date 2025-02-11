@@ -5,11 +5,11 @@ import * as controller from './cart.controller';
 const router:Router = express.Router();
 
 router
-    .route('/add')
+    .route('/manage')
     .post(auth.authUser,controller.addToCart);
 
 router
-    .route('/show')
+    .route('/my')
     .post(auth.authUser,controller.myCart);
 
 router 
