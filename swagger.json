@@ -14,758 +14,6 @@
       "description": "Manage Owner Restaurant"
     }],
     "paths": {
-      "/restaurant": {
-      "post": {
-        "summary": "Create a new restaurant",
-        "tags": ["Restaurant"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "address": {
-                    "type": "string",
-                    "example": "123 Main St"
-                  },
-                  "title": {
-                    "type": "string",
-                    "example": "My Restaurant"
-                  },
-                  "workTime": {
-                    "type": "string",
-                    "example": "9 AM - 9 PM"
-                  },
-                  "body": {
-                    "type": "string",
-                    "example": "Best restaurant in town"
-                  },
-                  "description": {
-                    "type": "string",
-                    "example": "A cozy place with delicious food"
-                  },
-                  "href": {
-                    "type": "string",
-                    "example": "http://myrestaurant.com"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "+1234567890"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Restaurant created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "address": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "workTime": {
-                      "type": "string"
-                    },
-                    "body": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "href": {
-                      "type": "string"
-                    },
-                    "phone": {
-                      "type": "string"
-                    },
-                    "ownerId": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "قبلا رستورانی بنام این ادمین ثبت شده است!"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-        "/restaurant/self": {
-          "get": {
-            "summary": "Get the restaurant of the authenticated owner",
-            "tags": ["Restaurant"],
-            "responses": {
-              "200": {
-                "description": "Restaurant retrieved successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "address": {
-                          "type": "string"
-                        },
-                        "title": {
-                          "type": "string"
-                        },
-                        "workTime": {
-                          "type": "string"
-                        },
-                        "body": {
-                          "type": "string"
-                        },
-                        "description": {
-                          "type": "string"
-                        },
-                        "href": {
-                          "type": "string"
-                        },
-                        "phone": {
-                          "type": "string"
-                        },
-                        "ownerId": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "رستورانی هنوز بنام شما ثبت نشده است!"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurants": {
-          "get": {
-            "summary": "Get all restaurants",
-            "tags": ["Restaurant"],
-            "responses": {
-              "200": {
-                "description": "Restaurants retrieved successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "address": {
-                            "type": "string"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "workTime": {
-                            "type": "string"
-                          },
-                          "body": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "href": {
-                            "type": "string"
-                          },
-                          "phone": {
-                            "type": "string"
-                          },
-                          "ownerId": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "رستورانی در سایت ثبت نشده است!"
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "404": {
-                "description": "Not Found",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "در بارگذاری رستوران ها مشکلی پیش امد!"
-                        },
-                        "error": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/search": {
-          "post": {
-            "summary": "Search for a restaurant by title",
-            "tags": ["Restaurant"],
-            "requestBody": {
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "search": {
-                        "type": "string",
-                        "example": "My Restaurant"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "description": "Restaurant(s) found",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "restaurant": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string"
-                              },
-                              "address": {
-                                "type": "string"
-                              },
-                              "title": {
-                                "type": "string"
-                              },
-                              "workTime": {
-                                "type": "string"
-                              },
-                              "body": {
-                                "type": "string"
-                              },
-                              "description": {
-                                "type": "string"
-                              },
-                              "href": {
-                                "type": "string"
-                              },
-                              "phone": {
-                                "type": "string"
-                              },
-                              "ownerId": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "رستورانی با این نام پیدا نشد!"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/score": {
-          "post": {
-            "summary": "Give a score to a restaurant",
-            "tags": ["Restaurant"],
-            "requestBody": {
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "restId": {
-                        "type": "string",
-                        "example": "1"
-                      },
-                      "score": {
-                        "type": "number",
-                        "example": 4.5
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "description": "Score added successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "restaurant": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "address": {
-                              "type": "string"
-                            },
-                            "title": {
-                              "type": "string"
-                            },
-                            "workTime": {
-                              "type": "string"
-                            },
-                            "body": {
-                              "type": "string"
-                            },
-                            "description": {
-                              "type": "string"
-                            },
-                            "href": {
-                              "type": "string"
-                            },
-                            "phone": {
-                              "type": "string"
-                            },
-                            "ownerId": {
-                              "type": "string"
-                            },
-                            "score": {
-                              "type": "array",
-                              "items": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "رستوران مورد نظر شما یافت نشد!"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/top-score": {
-          "get": {
-            "summary": "Get top scored restaurants",
-            "tags": ["Restaurant"],
-            "responses": {
-              "200": {
-                "description": "Top scored restaurants retrieved successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "address": {
-                            "type": "string"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "workTime": {
-                            "type": "string"
-                          },
-                          "body": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "href": {
-                            "type": "string"
-                          },
-                          "phone": {
-                            "type": "string"
-                          },
-                          "ownerId": {
-                            "type": "string"
-                          },
-                          "avgScore": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "در بارگذاری رستوران ها مشکلی بوجود امد!"
-                        },
-                        "error": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/top-viewed": {
-          "get": {
-            "summary": "Get top viewed restaurants",
-            "tags": ["Restaurant"],
-            "responses": {
-              "200": {
-                "description": "Top viewed restaurants retrieved successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "address": {
-                            "type": "string"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "workTime": {
-                            "type": "string"
-                          },
-                          "body": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "href": {
-                            "type": "string"
-                          },
-                          "phone": {
-                            "type": "string"
-                          },
-                          "ownerId": {
-                            "type": "string"
-                          },
-                          "watchCount": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "رستورانی در سایت وجود ندارد!"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/top-order-count": {
-          "get": {
-            "summary": "Get top order count restaurants",
-            "tags": ["Restaurant"],
-            "responses": {
-              "200": {
-                "description": "Top order count restaurants retrieved successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "address": {
-                            "type": "string"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "workTime": {
-                            "type": "string"
-                          },
-                          "body": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "href": {
-                            "type": "string"
-                          },
-                          "phone": {
-                            "type": "string"
-                          },
-                          "ownerId": {
-                            "type": "string"
-                          },
-                          "orderCount": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "سفارشی در رستوران ثبت نشده است!"
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "404": {
-                "description": "Not Found",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "مشکلی بوجود امد!"
-                        },
-                        "error": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "/restaurant/delivery-price": {
-          "put": {
-            "summary": "Change the delivery price of the restaurant",
-            "tags": ["Restaurant"],
-            "requestBody": {
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "price": {
-                        "type": "number",
-                        "example": 10.0
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "responses": {
-              "203": {
-                "description": "Delivery price changed successfully",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "قیمت پیک رستوران شما به 10 تغییر یافت!"
-                        },
-                        "restaurant": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "address": {
-                              "type": "string"
-                            },
-                            "title": {
-                              "type": "string"
-                            },
-                            "workTime": {
-                              "type": "string"
-                            },
-                            "body": {
-                              "type": "string"
-                            },
-                            "description": {
-                              "type": "string"
-                            },
-                            "href": {
-                              "type": "string"
-                            },
-                            "phone": {
-                              "type": "string"
-                            },
-                            "ownerId": {
-                              "type": "string"
-                            },
-                            "delivery": {
-                              "type": "number"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "422": {
-                "description": "Unprocessable Entity",
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "در تغییر قیمت ارسال پیک مشکلی پیش امد!"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "/owner/register": {
               "post": {
                 "summary": "Register a new owner",
@@ -954,7 +202,7 @@
                 }
               }
         },
-        "/owner/all-users": {
+        "/owner/all-owners": {
               "get": {
                 "summary": "Get all owners",
                 "tags": ["Owner"],
@@ -1087,8 +335,2931 @@
                   }
                 }
               }
-        }
         },
+        "/user/sign-up-or-sign-in": {
+              "post": {
+                "summary": "Sign up or sign in a user",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "user@example.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "User signed in successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "201": {
+                    "description": "User signed up successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "Invalid email format",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ایمیل معتبر نمی‌باشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "500": {
+                    "description": "Internal server error",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "خطایی در عملیات ورود/ثبت‌نام رخ داد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/user/sign-up": {
+              "post": {
+                "summary": "Sign up a new user",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "user@example.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "User signed up successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ایمیل یا شماره موبایل قبلا در سایت ثبت شده است!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "500": {
+                    "description": "Internal server error",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در ثبت نام شما مشکلی بوجود امد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/user/sign-in": {
+              "post": {
+                "summary": "Sign in a user",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "user@example.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "User signed in successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "userToken": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "email": {
+                                  "type": "string"
+                                },
+                                "refreshToken": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "کاربری با این ایمیل یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "500": {
+                    "description": "Internal server error",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "خطایی رخ داد لطفا مجددا وارد شوید!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/user/edit-profile": {
+              "put": {
+                "summary": "Edit user profile",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "fullName": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "+1234567890"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "203": {
+                    "description": "User profile edited successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "مشخصات کاربر ویرایش شد!"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "fullName": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در ویرایش مشخصات کاربر مشکلی رخ داد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+        },
+        "/restaurant/create": {
+          "post": {
+            "summary": "Create a new restaurant",
+            "tags": ["Restaurant"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "example": "123 Main St"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "My Restaurant"
+                      },
+                      "workTime": {
+                        "type": "string",
+                        "example": "9 AM - 9 PM"
+                      },
+                      "body": {
+                        "type": "string",
+                        "example": "Best restaurant in town"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "A cozy place with delicious food"
+                      },
+                      "href": {
+                        "type": "string",
+                        "example": "http://myrestaurant.com"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "+1234567890"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Restaurant created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "workTime": {
+                          "type": "string"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "href": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "ownerId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "قبلا رستورانی بنام این ادمین ثبت شده است!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/self": {
+              "get": {
+                "summary": "Get the restaurant of the authenticated owner",
+                "tags": ["Restaurant"],
+                "responses": {
+                  "200": {
+                    "description": "Restaurant retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "workTime": {
+                              "type": "string"
+                            },
+                            "body": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "href": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "ownerId": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی هنوز بنام شما ثبت نشده است!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/all": {
+              "get": {
+                "summary": "Get all restaurants",
+                "tags": ["Restaurant"],
+                "responses": {
+                  "200": {
+                    "description": "Restaurants retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "workTime": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "ownerId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی در سایت ثبت نشده است!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در بارگذاری رستوران ها مشکلی پیش امد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/search": {
+              "post": {
+                "summary": "Search for a restaurant by title",
+                "tags": ["Restaurant"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "search": {
+                            "type": "string",
+                            "example": "My Restaurant"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Restaurant(s) found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "restaurant": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "address": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  },
+                                  "workTime": {
+                                    "type": "string"
+                                  },
+                                  "body": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "href": {
+                                    "type": "string"
+                                  },
+                                  "phone": {
+                                    "type": "string"
+                                  },
+                                  "ownerId": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی با این نام پیدا نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/score": {
+              "post": {
+                "summary": "Give a score to a restaurant",
+                "tags": ["Restaurant"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "restId": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "score": {
+                            "type": "number",
+                            "example": 4.5
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Score added successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "restaurant": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "workTime": {
+                                  "type": "string"
+                                },
+                                "body": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "href": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "ownerId": {
+                                  "type": "string"
+                                },
+                                "score": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستوران مورد نظر شما یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/top-score": {
+              "get": {
+                "summary": "Get top scored restaurants",
+                "tags": ["Restaurant"],
+                "responses": {
+                  "200": {
+                    "description": "Top scored restaurants retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "workTime": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "ownerId": {
+                                "type": "string"
+                              },
+                              "avgScore": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در بارگذاری رستوران ها مشکلی بوجود امد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/top-viewed": {
+              "get": {
+                "summary": "Get top viewed restaurants",
+                "tags": ["Restaurant"],
+                "responses": {
+                  "200": {
+                    "description": "Top viewed restaurants retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "workTime": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "ownerId": {
+                                "type": "string"
+                              },
+                              "watchCount": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی در سایت وجود ندارد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/top-order-count": {
+              "get": {
+                "summary": "Get top order count restaurants",
+                "tags": ["Restaurant"],
+                "responses": {
+                  "200": {
+                    "description": "Top order count restaurants retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "workTime": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "ownerId": {
+                                "type": "string"
+                              },
+                              "orderCount": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "سفارشی در رستوران ثبت نشده است!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "مشکلی بوجود امد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/restaurant/delivery-price": {
+              "put": {
+                "summary": "Change the delivery price of the restaurant",
+                "tags": ["Restaurant"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "price": {
+                            "type": "number",
+                            "example": 10.0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "203": {
+                    "description": "Delivery price changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "قیمت پیک رستوران شما به 10 تغییر یافت!"
+                            },
+                            "restaurant": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "address": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "workTime": {
+                                  "type": "string"
+                                },
+                                "body": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "href": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "ownerId": {
+                                  "type": "string"
+                                },
+                                "delivery": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در تغییر قیمت ارسال پیک مشکلی پیش امد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/category/manage": {
+              "post": {
+                "summary": "Create a new category",
+                "tags": ["Category"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "href": {
+                            "type": "string",
+                            "example": "/category-link"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "Category Title"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Category created successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "href": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "restaurantId": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ساخت دسته بندی شما با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete a category",
+                "tags": ["Category"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Category deleted successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "دسته بندی انتخابی شما با موفقیت حذف گردید!"
+                            },
+                            "deleted": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "href": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "restaurantId": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "حذف دسته بندی شما با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "دسته بندی مورد نظر قبلا حذف شده است"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/category/self": {
+              "post": {
+                "summary": "Get categories created by the authenticated owner",
+                "tags": ["Category"],
+                "responses": {
+                  "200": {
+                    "description": "Categories retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "restaurantId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما هنوز دسته بندی را ایجاد نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما هنوز رستورانی را بنام خود ثبت نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/product/manage": {
+              "post": {
+                "summary": "Create a new product",
+                "tags": ["Product"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "example": "Product Title"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Product Description"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 100.0
+                          },
+                          "categoryId": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "example": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Product created successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "price": {
+                              "type": "number"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "isActive": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ساخت محصول شما با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Delete a product",
+                "tags": ["Product"],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Product deleted successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "محصول انتخابی شما با موفقیت حذف گردید!"
+                            },
+                            "deleted": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "categoryId": {
+                                  "type": "string"
+                                },
+                                "isActive": {
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "حذف محصول شما با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "محصول مورد نظر قبلا حذف شده است"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/product/self": {
+              "get": {
+                "summary": "Get products created by the authenticated owner",
+                "tags": ["Product"],
+                "responses": {
+                  "200": {
+                    "description": "Products retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "categoryId": {
+                                "type": "string"
+                              },
+                              "isActive": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما هنوز محصولی را ایجاد نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما هنوز رستورانی را بنام خود ثبت نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/product/price": {
+              "put": {
+                "summary": "Change the price of a product",
+                "tags": ["Product"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 150.0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Product price changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "قیمت محصول شما با موفقیت تغییر یافت!"
+                            },
+                            "product": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "categoryId": {
+                                  "type": "string"
+                                },
+                                "isActive": {
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در تغییر قیمت محصول مشکلی پیش امد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/product/top-purchased": {
+              "get": {
+                "summary": "Get top purchased products",
+                "tags": ["Product"],
+                "responses": {
+                  "200": {
+                    "description": "Top purchased products retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "categoryId": {
+                                "type": "string"
+                              },
+                              "isActive": {
+                                "type": "boolean"
+                              },
+                              "purchaseCount": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در بارگذاری محصولات مشکلی بوجود امد!"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/product/active-status": {
+              "put": {
+                "summary": "Change the active status of a product",
+                "tags": ["Product"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "isActive": {
+                            "type": "boolean",
+                            "example": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Product active status changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "وضعیت فعال بودن محصول شما با موفقیت تغییر یافت!"
+                            },
+                            "product": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "categoryId": {
+                                  "type": "string"
+                                },
+                                "isActive": {
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در تغییر وضعیت فعال بودن محصول مشکلی پیش امد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/cart/manage": {
+              "post": {
+                "summary": "Add a product to the cart",
+                "tags": ["Cart"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Product added to cart successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "productId": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "userId": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "افزودن محصول به سبد خرید با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "delete": {
+                "summary": "Clear the cart",
+                "tags": ["Cart"],
+                "responses": {
+                  "200": {
+                    "description": "Cart cleared successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "سبد خرید با موفقیت خالی شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "خالی کردن سبد خرید با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/cart/my": {
+              "get": {
+                "summary": "Get the authenticated user's cart",
+                "tags": ["Cart"],
+                "responses": {
+                  "200": {
+                    "description": "Cart retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "productId": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "userId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "سبد خرید شما یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/cart/detail": {
+              "get": {
+                "summary": "Get details of the cart",
+                "tags": ["Cart"],
+                "responses": {
+                  "200": {
+                    "description": "Cart details retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "productId": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "userId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "جزئیات سبد خرید شما یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/cart/clear": {
+              "delete": {
+                "summary": "Delete a product from the cart",
+                "tags": ["Cart"],
+                "parameters": [
+                  {
+                    "name": "productId",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "example": "1"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Product deleted from cart successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "محصول از سبد خرید با موفقیت حذف شد!"
+                            },
+                            "deleted": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "productId": {
+                                  "type": "string"
+                                },
+                                "quantity": {
+                                  "type": "number"
+                                },
+                                "userId": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "حذف محصول از سبد خرید با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "محصول مورد نظر در سبد خرید یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/cart/decrease": {
+              "put": {
+                "summary": "Decrease the quantity of a product in the cart",
+                "tags": ["Cart"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "quantity": {
+                            "type": "number",
+                            "example": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Product quantity decreased successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "تعداد محصول در سبد خرید با موفقیت کاهش یافت!"
+                            },
+                            "product": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "productId": {
+                                  "type": "string"
+                                },
+                                "quantity": {
+                                  "type": "number"
+                                },
+                                "userId": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "کاهش تعداد محصول در سبد خرید با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/order/show": {
+              "get": {
+                "summary": "Create an order",
+                "tags": ["Order"],
+                "responses": {
+                  "201": {
+                    "description": "Order created successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "cart": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "productId": {
+                                    "type": "string"
+                                  },
+                                  "quantity": {
+                                    "type": "number"
+                                  },
+                                  "userId": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "totalPrice": {
+                              "type": "number"
+                            },
+                            "totalDelivery": {
+                              "type": "number"
+                            },
+                            "productCount": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما کالایی جهت سفارش انتخاب نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "419": {
+                    "description": "Error",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/order/submit": {
+              "post": {
+                "summary": "Submit an order",
+                "tags": ["Order"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "example": "123 Main St"
+                          },
+                          "note": {
+                            "type": "string",
+                            "example": "Leave at the door"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Order submitted successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "restaurantId": {
+                              "type": "string"
+                            },
+                            "userId": {
+                              "type": "string"
+                            },
+                            "products": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "price": {
+                                    "type": "number"
+                                  },
+                                  "categoryId": {
+                                    "type": "string"
+                                  },
+                                  "isActive": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "price": {
+                              "type": "number"
+                            },
+                            "count": {
+                              "type": "number"
+                            },
+                            "note": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "time": {
+                              "type": "number"
+                            },
+                            "delivery": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "شما کالایی جهت سفارش انتخاب نکرده اید!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "419": {
+                    "description": "Error",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/order/all": {
+              "get": {
+                "summary": "Get all orders",
+                "tags": ["Order"],
+                "responses": {
+                  "200": {
+                    "description": "Orders retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "restaurantId": {
+                                "type": "string"
+                              },
+                              "userId": {
+                                "type": "string"
+                              },
+                              "products": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "title": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "price": {
+                                      "type": "number"
+                                    },
+                                    "categoryId": {
+                                      "type": "string"
+                                    },
+                                    "isActive": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                                }
+                              },
+                              "price": {
+                                "type": "number"
+                              },
+                              "count": {
+                                "type": "number"
+                              },
+                              "note": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "time": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/detail/restaurant-menu": {
+          "get": {
+            "summary": "Get the menu of a restaurant",
+            "tags": ["Detail"],
+            "parameters": [
+              {
+                "name": "id",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Restaurant menu retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "restaurant": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "watchCount": {
+                              "type": "number"
+                            },
+                            "score": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "category": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "restaurantId": {
+                                "type": "string"
+                              },
+                              "Product": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "title": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "price": {
+                                      "type": "number"
+                                    },
+                                    "categoryId": {
+                                      "type": "string"
+                                    },
+                                    "isActive": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "در بارگذاری رستوران مشکلی پیش امد!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/auth/verify-email": {
+              "post": {
+                "summary": "Verify email and send verification code",
+                "tags": ["Auth"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "user@example.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Verification code sent successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "کد تایید ارسال شده به ایمیل user@example.com را وارد نمایید"
+                            },
+                            "token": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در ارسال ایمیل برای شما دچار مشکل شدیم"
+                            },
+                            "error": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/auth/remember-me": {
+              "post": {
+                "summary": "Check if the user's token is valid",
+                "tags": ["Auth"],
+                "parameters": [
+                  {
+                    "name": "Authorization",
+                    "in": "header",
+                    "required": true,
+                    "schema": {
+                      "type": "string",
+                      "example": "Bearer <token>"
+                    }
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Token is valid",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "توکن معتبر است!"
+                            },
+                            "isOk": {
+                              "type": "boolean",
+                              "example": true
+                            },
+                            "user": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "email": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "توکن کاربر یافت نشد!"
+                            },
+                            "isOk": {
+                              "type": "boolean",
+                              "example": false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/upload/change-logo": {
+              "post": {
+                "summary": "Change the restaurant logo",
+                "tags": ["Upload"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "file": {
+                            "type": "string",
+                            "format": "binary"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Logo changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "rest": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "logo": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/upload/change-banner": {
+              "post": {
+                "summary": "Change the restaurant banner",
+                "tags": ["Upload"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "file": {
+                            "type": "string",
+                            "format": "binary"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Banner changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "rest": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "banner": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/upload/change-product-image": {
+              "post": {
+                "summary": "Change the product image",
+                "tags": ["Upload"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "multipart/form-data": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "file": {
+                            "type": "string",
+                            "format": "binary"
+                          },
+                          "productId": {
+                            "type": "string",
+                            "example": "1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Product image changed successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "prodcut": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "picture": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رستورانی یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/upload/preview": {
+              "post": {
+                "summary": "Preview an image",
+                "tags": ["Upload"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "example": "/path/to/image.jpg"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Image previewed successfully",
+                    "content": {
+                      "application/octet-stream": {}
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "بارگذاری عکس با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        }
+      },
     "components": {
       "schemas": {
         "Owner":{
