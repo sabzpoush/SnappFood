@@ -14,28 +14,1081 @@
       "description": "Manage Owner Restaurant"
     }],
     "paths": {
-      "/users": {
-        "get": {
-          "summary": "Get all users",
-          "responses": {
-            "200": {
-              "description": "Success"
+      "/restaurant": {
+      "post": {
+        "summary": "Create a new restaurant",
+        "tags": ["Restaurant"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main St"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "My Restaurant"
+                  },
+                  "workTime": {
+                    "type": "string",
+                    "example": "9 AM - 9 PM"
+                  },
+                  "body": {
+                    "type": "string",
+                    "example": "Best restaurant in town"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "A cozy place with delicious food"
+                  },
+                  "href": {
+                    "type": "string",
+                    "example": "http://myrestaurant.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+1234567890"
+                  }
+                }
+              }
             }
           }
-        }
-      },
-      "/product":{
-        "post":{
-          "tags": ["Restaurant"],
-          "summary": "Get All Product",
-          "responses": {
-            "200":{
-                "description": "Return All Submited Product"
+        },
+        "responses": {
+          "201": {
+            "description": "Restaurant created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "workTime": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "href": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "ownerId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "قبلا رستورانی بنام این ادمین ثبت شده است!"
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     },
+        "/restaurant/self": {
+          "get": {
+            "summary": "Get the restaurant of the authenticated owner",
+            "tags": ["Restaurant"],
+            "responses": {
+              "200": {
+                "description": "Restaurant retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "address": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "workTime": {
+                          "type": "string"
+                        },
+                        "body": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "href": {
+                          "type": "string"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "ownerId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "رستورانی هنوز بنام شما ثبت نشده است!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurants": {
+          "get": {
+            "summary": "Get all restaurants",
+            "tags": ["Restaurant"],
+            "responses": {
+              "200": {
+                "description": "Restaurants retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "workTime": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "ownerId": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "رستورانی در سایت ثبت نشده است!"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Not Found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "در بارگذاری رستوران ها مشکلی پیش امد!"
+                        },
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/search": {
+          "post": {
+            "summary": "Search for a restaurant by title",
+            "tags": ["Restaurant"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "search": {
+                        "type": "string",
+                        "example": "My Restaurant"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Restaurant(s) found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "restaurant": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "address": {
+                                "type": "string"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "workTime": {
+                                "type": "string"
+                              },
+                              "body": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "ownerId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "رستورانی با این نام پیدا نشد!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/score": {
+          "post": {
+            "summary": "Give a score to a restaurant",
+            "tags": ["Restaurant"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "restId": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "score": {
+                        "type": "number",
+                        "example": 4.5
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Score added successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "restaurant": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "workTime": {
+                              "type": "string"
+                            },
+                            "body": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "href": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "ownerId": {
+                              "type": "string"
+                            },
+                            "score": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "رستوران مورد نظر شما یافت نشد!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/top-score": {
+          "get": {
+            "summary": "Get top scored restaurants",
+            "tags": ["Restaurant"],
+            "responses": {
+              "200": {
+                "description": "Top scored restaurants retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "workTime": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "ownerId": {
+                            "type": "string"
+                          },
+                          "avgScore": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "در بارگذاری رستوران ها مشکلی بوجود امد!"
+                        },
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/top-viewed": {
+          "get": {
+            "summary": "Get top viewed restaurants",
+            "tags": ["Restaurant"],
+            "responses": {
+              "200": {
+                "description": "Top viewed restaurants retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "workTime": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "ownerId": {
+                            "type": "string"
+                          },
+                          "watchCount": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "رستورانی در سایت وجود ندارد!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/top-order-count": {
+          "get": {
+            "summary": "Get top order count restaurants",
+            "tags": ["Restaurant"],
+            "responses": {
+              "200": {
+                "description": "Top order count restaurants retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "workTime": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "ownerId": {
+                            "type": "string"
+                          },
+                          "orderCount": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "سفارشی در رستوران ثبت نشده است!"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Not Found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "مشکلی بوجود امد!"
+                        },
+                        "error": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/restaurant/delivery-price": {
+          "put": {
+            "summary": "Change the delivery price of the restaurant",
+            "tags": ["Restaurant"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "price": {
+                        "type": "number",
+                        "example": 10.0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "203": {
+                "description": "Delivery price changed successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "قیمت پیک رستوران شما به 10 تغییر یافت!"
+                        },
+                        "restaurant": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "workTime": {
+                              "type": "string"
+                            },
+                            "body": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "href": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "ownerId": {
+                              "type": "string"
+                            },
+                            "delivery": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "422": {
+                "description": "Unprocessable Entity",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "در تغییر قیمت ارسال پیک مشکلی پیش امد!"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/owner/register": {
+              "post": {
+                "summary": "Register a new owner",
+                "tags": ["Owner"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "owner@example.com"
+                          },
+                          "fullName": {
+                            "type": "string",
+                            "example": "John Doe"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "password123"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "+1234567890"
+                          },
+                          "city": {
+                            "type": "string",
+                            "example": "New York"
+                          },
+                          "state": {
+                            "type": "string",
+                            "example": "NY"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Owner registered successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "fullName": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "city": {
+                              "type": "string"
+                            },
+                            "state": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ثبت نام ادمین با خطا مواجه شد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "203": {
+                    "description": "Owner registered successfully but refresh token not set",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ثبت نام شما با موفقیت انجام شد! می توانید به حساب کاربری خود وارد شوید."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/owner/reset-password": {
+              "post": {
+                "summary": "Reset owner's password",
+                "tags": ["Owner"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "newPassword": {
+                            "type": "string",
+                            "example": "newpassword123"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Password reset successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "رمز عبور کاربر با موفقیت تغییر کرد!"
+                            },
+                            "owner": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "email": {
+                                  "type": "string"
+                                },
+                                "fullName": {
+                                  "type": "string"
+                                },
+                                "phone": {
+                                  "type": "string"
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "422": {
+                    "description": "Unprocessable Entity",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "در تغییر رمز عبور مشکلی پیش امد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/owner/all-users": {
+              "get": {
+                "summary": "Get all owners",
+                "tags": ["Owner"],
+                "responses": {
+                  "200": {
+                    "description": "Owners retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              },
+                              "fullName": {
+                                "type": "string"
+                              },
+                              "phone": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "state": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "404": {
+                    "description": "Not Found",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ادمینی یافت نشد!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        },
+        "/owner/sign-in": {
+              "post": {
+                "summary": "Sign in an owner",
+                "tags": ["Owner"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string",
+                            "example": "owner@example.com"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "password123"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Owner signed in successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "fullName": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "city": {
+                              "type": "string"
+                            },
+                            "state": {
+                              "type": "string"
+                            },
+                            "refreshToken": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "401": {
+                    "description": "Unauthorized",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "example": "ایمیل یا رمز عبور اشتباه است!"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+        }
+        },
     "components": {
       "schemas": {
         "Owner":{
